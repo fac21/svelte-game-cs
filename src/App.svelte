@@ -13,7 +13,6 @@
 		user.loggedIn = !user.loggedIn;
 	}
 
-
 </script>
 
 <main>

@@ -22,13 +22,14 @@
         { id: '37059', name: 'Dan' },
         { id: '22013117', name: 'Yvonne' },
 	];
+    let totalImages = [...images,...images];
 </script>
 
 <main>
 <h2> Test how good your memory is and match the pictures!</h2>
 
 <ul>
-	{#each images as {id, name}, i}
+	{#each totalImages as {id, name}, i}
         <button>
 		<img src="https://avatars.githubusercontent.com/u/{id}?v=4" alt="{name}'s github profile picture">
 			 <!-- {i+1} :{name} -->
