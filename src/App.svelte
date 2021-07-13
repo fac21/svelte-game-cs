@@ -1,10 +1,43 @@
 <script>
+	import Card from './Card.svelte';
+	import Logo from './Logo.svelte';
 	export let name;
+		let count = 0;
+
+	function incrementCount() {
+		count += 1;
+	}
+		let user = { loggedIn: false };
+
+	function toggle() {
+		user.loggedIn = !user.loggedIn;
+	}
+
+
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+    <header>
+	<Logo/>
+	  <h1>The Famous Cards of {name} </h1>
+
+    </header>
+	<p>Visit the <a href="https://github.com/fac21">FAC21 github repository</a> to view all the awsome projects they have created!</p>
+
+	<button on:click={incrementCount}>
+	Clicked {count} {count === 1 ? 'time' : 'times'}
+	</button>
+
+{#if user.loggedIn}
+	<button on:click={toggle}>
+		Log out
+	</button>
+{:else}
+	<button on:click={toggle}>
+		Log in
+	</button>
+{/if}
+	<Card/>
 </main>
 
 <style>
