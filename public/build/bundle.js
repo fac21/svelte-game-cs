@@ -1,5 +1,5 @@
 
-(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35730/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 var app = (function () {
     'use strict';
 
@@ -492,39 +492,48 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[2] = list[i].id;
-    	child_ctx[3] = list[i].name;
-    	child_ctx[5] = i;
+    	child_ctx[4] = list[i].id;
+    	child_ctx[5] = list[i].name;
+    	child_ctx[7] = i;
     	return child_ctx;
     }
 
-    // (32:1) {#each totalImages as {id, name}
+    // (37:1) {#each totalImages as {id, name}
     function create_each_block(ctx) {
     	let button;
     	let img;
     	let img_src_value;
     	let t;
+    	let mounted;
+    	let dispose;
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			img = element("img");
     			t = space();
-    			if (img.src !== (img_src_value = "https://avatars.githubusercontent.com/u/" + /*id*/ ctx[2] + "?v=4")) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "" + (/*name*/ ctx[3] + "'s github profile picture"));
-    			attr_dev(img, "class", "svelte-1xt7cqp");
-    			add_location(img, file$2, 33, 2, 1083);
-    			attr_dev(button, "class", "svelte-1xt7cqp");
-    			add_location(button, file$2, 32, 8, 1072);
+    			if (img.src !== (img_src_value = "https://avatars.githubusercontent.com/u/" + /*id*/ ctx[4] + "?v=4")) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "" + (/*name*/ ctx[5] + "'s github profile picture"));
+    			attr_dev(img, "class", "svelte-3ynmbe");
+    			add_location(img, file$2, 38, 2, 1175);
+    			attr_dev(button, "class", "svelte-3ynmbe");
+    			add_location(button, file$2, 37, 8, 1138);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
     			append_dev(button, img);
     			append_dev(button, t);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*incrementCount*/ ctx[1], false, false, false);
+    				mounted = true;
+    			}
     		},
     		p: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -532,7 +541,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(32:1) {#each totalImages as {id, name}",
+    		source: "(37:1) {#each totalImages as {id, name}",
     		ctx
     	});
 
@@ -564,9 +573,9 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h2, file$2, 28, 0, 957);
-    			add_location(ul, file$2, 30, 0, 1021);
-    			add_location(main, file$2, 27, 0, 950);
+    			add_location(h2, file$2, 33, 0, 1023);
+    			add_location(ul, file$2, 35, 0, 1087);
+    			add_location(main, file$2, 32, 0, 1016);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -582,7 +591,7 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*totalImages*/ 1) {
+    			if (dirty & /*incrementCount, totalImages*/ 3) {
     				each_value = /*totalImages*/ ctx[0];
     				validate_each_argument(each_value);
     				let i;
@@ -654,24 +663,36 @@ var app = (function () {
     	];
 
     	let totalImages = [...images, ...images];
+    	let count = 0;
+
+    	function incrementCount() {
+    		count += 1;
+    	}
+
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Card> was created with unknown prop '${key}'`);
     	});
 
-    	$$self.$capture_state = () => ({ images, totalImages });
+    	$$self.$capture_state = () => ({
+    		images,
+    		totalImages,
+    		count,
+    		incrementCount
+    	});
 
     	$$self.$inject_state = $$props => {
     		if ("images" in $$props) images = $$props.images;
     		if ("totalImages" in $$props) $$invalidate(0, totalImages = $$props.totalImages);
+    		if ("count" in $$props) count = $$props.count;
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [totalImages];
+    	return [totalImages, incrementCount];
     }
 
     class Card extends SvelteComponentDev {
@@ -806,84 +827,6 @@ var app = (function () {
     /* src/App.svelte generated by Svelte v3.38.3 */
     const file = "src/App.svelte";
 
-    // (34:0) {:else}
-    function create_else_block(ctx) {
-    	let button;
-    	let mounted;
-    	let dispose;
-
-    	const block = {
-    		c: function create() {
-    			button = element("button");
-    			button.textContent = "Log in";
-    			add_location(button, file, 34, 1, 659);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, button, anchor);
-
-    			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*toggle*/ ctx[4], false, false, false);
-    				mounted = true;
-    			}
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(button);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_else_block.name,
-    		type: "else",
-    		source: "(34:0) {:else}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (30:0) {#if user.loggedIn}
-    function create_if_block(ctx) {
-    	let button;
-    	let mounted;
-    	let dispose;
-
-    	const block = {
-    		c: function create() {
-    			button = element("button");
-    			button.textContent = "Log out";
-    			add_location(button, file, 30, 1, 602);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, button, anchor);
-
-    			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*toggle*/ ctx[4], false, false, false);
-    				mounted = true;
-    			}
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(button);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block.name,
-    		type: "if",
-    		source: "(30:0) {#if user.loggedIn}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
     function create_fragment(ctx) {
     	let main;
     	let header;
@@ -898,12 +841,12 @@ var app = (function () {
     	let a;
     	let t6;
     	let t7;
-    	let button;
-    	let t8;
+    	let button0;
     	let t9;
+    	let button1;
     	let t10;
-    	let t11_value = (/*count*/ ctx[1] === 1 ? "time" : "times") + "";
     	let t11;
+    	let t12_value = (/*count*/ ctx[1] === 1 ? "move" : "moves") + "";
     	let t12;
     	let t13;
     	let card;
@@ -911,14 +854,6 @@ var app = (function () {
     	let mounted;
     	let dispose;
     	logo = new Logo({ $$inline: true });
-
-    	function select_block_type(ctx, dirty) {
-    		if (/*user*/ ctx[2].loggedIn) return create_if_block;
-    		return create_else_block;
-    	}
-
-    	let current_block_type = select_block_type(ctx);
-    	let if_block = current_block_type(ctx);
     	card = new Card({ $$inline: true });
 
     	const block = {
@@ -937,24 +872,27 @@ var app = (function () {
     			a.textContent = "FAC21 github repository";
     			t6 = text(" to view all the awsome projects they have created!");
     			t7 = space();
-    			button = element("button");
-    			t8 = text("Clicked ");
-    			t9 = text(/*count*/ ctx[1]);
-    			t10 = space();
-    			t11 = text(t11_value);
-    			t12 = space();
-    			if_block.c();
+    			button0 = element("button");
+    			button0.textContent = "Start Game";
+    			t9 = space();
+    			button1 = element("button");
+    			t10 = text(/*count*/ ctx[1]);
+    			t11 = space();
+    			t12 = text(t12_value);
     			t13 = space();
     			create_component(card.$$.fragment);
-    			attr_dev(h1, "class", "svelte-1tky8bj");
-    			add_location(h1, file, 20, 3, 298);
-    			add_location(header, file, 18, 4, 277);
+    			attr_dev(h1, "class", "svelte-1pgubxw");
+    			add_location(h1, file, 20, 3, 296);
+    			add_location(header, file, 18, 4, 275);
     			attr_dev(a, "href", "https://github.com/fac21");
-    			add_location(a, file, 23, 14, 364);
-    			add_location(p, file, 23, 1, 351);
-    			add_location(button, file, 25, 1, 484);
-    			attr_dev(main, "class", "svelte-1tky8bj");
-    			add_location(main, file, 17, 0, 266);
+    			add_location(a, file, 23, 14, 362);
+    			add_location(p, file, 23, 1, 349);
+    			attr_dev(button0, "class", "svelte-1pgubxw");
+    			add_location(button0, file, 24, 1, 481);
+    			attr_dev(button1, "class", "svelte-1pgubxw");
+    			add_location(button1, file, 25, 1, 511);
+    			attr_dev(main, "class", "svelte-1pgubxw");
+    			add_location(main, file, 17, 0, 264);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -973,38 +911,25 @@ var app = (function () {
     			append_dev(p, a);
     			append_dev(p, t6);
     			append_dev(main, t7);
-    			append_dev(main, button);
-    			append_dev(button, t8);
-    			append_dev(button, t9);
-    			append_dev(button, t10);
-    			append_dev(button, t11);
-    			append_dev(main, t12);
-    			if_block.m(main, null);
+    			append_dev(main, button0);
+    			append_dev(main, t9);
+    			append_dev(main, button1);
+    			append_dev(button1, t10);
+    			append_dev(button1, t11);
+    			append_dev(button1, t12);
     			append_dev(main, t13);
     			mount_component(card, main, null);
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*incrementCount*/ ctx[3], false, false, false);
+    				dispose = listen_dev(button1, "click", /*incrementCount*/ ctx[2], false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
     			if (!current || dirty & /*name*/ 1) set_data_dev(t2, /*name*/ ctx[0]);
-    			if (!current || dirty & /*count*/ 2) set_data_dev(t9, /*count*/ ctx[1]);
-    			if ((!current || dirty & /*count*/ 2) && t11_value !== (t11_value = (/*count*/ ctx[1] === 1 ? "time" : "times") + "")) set_data_dev(t11, t11_value);
-
-    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
-    				if_block.p(ctx, dirty);
-    			} else {
-    				if_block.d(1);
-    				if_block = current_block_type(ctx);
-
-    				if (if_block) {
-    					if_block.c();
-    					if_block.m(main, t13);
-    				}
-    			}
+    			if (!current || dirty & /*count*/ 2) set_data_dev(t10, /*count*/ ctx[1]);
+    			if ((!current || dirty & /*count*/ 2) && t12_value !== (t12_value = (/*count*/ ctx[1] === 1 ? "move" : "moves") + "")) set_data_dev(t12, t12_value);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -1020,7 +945,6 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
     			destroy_component(logo);
-    			if_block.d();
     			destroy_component(card);
     			mounted = false;
     			dispose();
@@ -1051,7 +975,7 @@ var app = (function () {
     	let user = { loggedIn: false };
 
     	function toggle() {
-    		$$invalidate(2, user.loggedIn = !user.loggedIn, user);
+    		user.loggedIn = !user.loggedIn;
     	}
 
     	const writable_props = ["name"];
@@ -1077,14 +1001,14 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ("name" in $$props) $$invalidate(0, name = $$props.name);
     		if ("count" in $$props) $$invalidate(1, count = $$props.count);
-    		if ("user" in $$props) $$invalidate(2, user = $$props.user);
+    		if ("user" in $$props) user = $$props.user;
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [name, count, user, incrementCount, toggle];
+    	return [name, count, incrementCount];
     }
 
     class App extends SvelteComponentDev {

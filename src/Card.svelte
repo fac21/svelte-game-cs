@@ -23,6 +23,11 @@
         { id: '22013117', name: 'Yvonne' },
 	];
     let totalImages = [...images,...images];
+
+    let count = 0;
+	function incrementCount() {
+		count += 1;
+	}
 </script>
 
 <main>
@@ -30,7 +35,7 @@
 
 <ul>
 	{#each totalImages as {id, name}, i}
-        <button>
+        <button on:click={incrementCount}>
 		<img src="https://avatars.githubusercontent.com/u/{id}?v=4" alt="{name}'s github profile picture">
 			 <!-- {i+1} :{name} -->
             </button>
@@ -41,7 +46,10 @@
 <style>
     img{
 
-width: 100px;
+    width: 100px;
+    transition: all 0.3s ease;
+	/* transform: rotateY(180deg); */
+
   /* aspect-ratio: 1/1; */
   /* object-fit: cover; */
     }
@@ -53,6 +61,7 @@ width: 100px;
 		padding: .75rem 1.5rem;
 		cursor: pointer;
         margin:0.25rem;
+
 
 	}
 	button:hover {
